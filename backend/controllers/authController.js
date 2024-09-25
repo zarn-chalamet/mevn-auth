@@ -4,17 +4,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 
 async function register(req, res) {
-  const { username, email, first_name, last_name, password, password_confirm } =
-    req.body;
+  const { username, email, password, password_confirm } = req.body;
 
-  if (
-    !username ||
-    !email ||
-    !password ||
-    !password_confirm ||
-    !first_name ||
-    !last_name
-  ) {
+  if (!username || !email || !password || !password_confirm) {
     return res.status(422).json({ message: "Invalid fields" });
   }
 
@@ -32,8 +24,6 @@ async function register(req, res) {
       email,
       username,
       password: hashedPassword,
-      first_name,
-      last_name,
     });
 
     return res.sendStatus(201);
