@@ -17,13 +17,10 @@ const UserSchema = Schema(
         (val) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val),
       ],
     },
-    first_name: {
+    googleId: {
       type: String,
-      required: true,
-    },
-    last_name: {
-      type: String,
-      required: true,
+      unique: true,
+      sparse: true,
     },
     password: {
       type: String,

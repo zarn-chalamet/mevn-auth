@@ -10,6 +10,8 @@ const connectDB = require("./config/database");
 const credentials = require("./middleware/credentials");
 const errorHandler = require("./middleware/error_handler");
 const authenticationMiddleware = require("./middleware/authentication");
+const session = require("express-session");
+const passport = require("./config/passport");
 
 const app = express();
 
@@ -19,6 +21,18 @@ connectDB();
 
 // Allow Credentials
 app.use(credentials);
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+
+app.use(passport.session());
 
 // CORS
 app.use(cors(corsOptions));

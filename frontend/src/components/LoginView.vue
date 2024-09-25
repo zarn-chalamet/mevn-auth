@@ -8,6 +8,7 @@
             <button @click="login">
                 Login
             </button>
+            <button @click="loginWithGoogle">Login with google</button>
         </form>
     </div>
 </template>
@@ -38,7 +39,11 @@ export default {
         }
     }
 
-    return {email,password,login,err}
+    let loginWithGoogle = () => {
+        window.location.href = 'http://localhost:3500/api/auth/google';
+    }
+
+    return {email,password,login,err,loginWithGoogle}
    }
 }
 </script>
