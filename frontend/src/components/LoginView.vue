@@ -43,6 +43,7 @@ export default {
         window.location.href = 'http://localhost:3500/api/auth/google';
     }
 
+
     return {email,password,login,err,loginWithGoogle}
    }
 }

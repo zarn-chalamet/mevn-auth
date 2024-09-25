@@ -20,6 +20,18 @@ export default {
     let user = ref(null);
 
     onMounted( async () => {
+
+        // After login, extract access token from URL query parameters
+        const accessToken = new URLSearchParams(window.location.search).get("access_token");
+
+        if (accessToken) {
+          // Store the access token (localStorage, Vuex, Pinia, or cookies)
+          localStorage.setItem('token', accessToken);
+          console.log(accessToken)
+          // Redirect the user to the home page or desired page
+          router.push('/home');
+        }
+
         await authStore.getUser();
         user.value = authStore.userDetail;
     })

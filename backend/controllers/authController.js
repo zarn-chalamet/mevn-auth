@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 
 async function register(req, res) {
   const { username, email, password, password_confirm } = req.body;
@@ -137,10 +136,4 @@ async function user(req, res) {
   return res.status(200).json(user);
 }
 
-async function google(req, res) {
-  return passport.authenticate("google", {
-    scope: ["profile", "email"],
-  });
-}
-
-module.exports = { register, login, logout, refresh, user, google };
+module.exports = { register, login, logout, refresh, user };

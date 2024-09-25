@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -14,14 +13,15 @@ const session = require("express-session");
 const passport = require("./config/passport");
 
 const app = express();
-
 const PORT = 3500;
 
+// Connect to DB
 connectDB();
 
 // Allow Credentials
 app.use(credentials);
 
+// Session setup
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -30,20 +30,20 @@ app.use(
   })
 );
 
+// Initialize passport
 app.use(passport.initialize());
-
 app.use(passport.session());
 
 // CORS
 app.use(cors(corsOptions));
 
-// application.x-www-from-urlencoded
+// application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 
 // application/json response
 app.use(express.json());
 
-// middelware for cookies
+// middleware for cookies
 app.use(cookieParser());
 
 // middleware for authentication
@@ -52,11 +52,13 @@ app.use(authenticationMiddleware);
 // static files
 app.use("/static", express.static(path.join(__dirname, "static")));
 
-// default error handler
-app.use(errorHandler);
-
 // Routes
 app.use("/api/auth", require("./routes/api/auth"));
+
+// Default error handler
+app.use(errorHandler);
+
+// Handle 404 errors
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("json")) {
@@ -66,6 +68,7 @@ app.all("*", (req, res) => {
   }
 });
 
+// Start the server after connecting to the database
 mongoose.connection.once("open", () => {
   console.log("DB connected");
   app.listen(PORT, () => {

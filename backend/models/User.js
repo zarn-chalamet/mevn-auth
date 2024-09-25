@@ -24,7 +24,9 @@ const UserSchema = Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId; // Require password only if it's not a Google account
+      },
       min: 6,
     },
     refresh_token: String,
